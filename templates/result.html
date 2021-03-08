@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <title>TOPSIS Demo</title>
+</head>
+
+<body>
+  <!-- As a link -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">TOPSIS Demo</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="mb-3 col-8 d-grid gap-2 mx-auto">
+      <p class="mt-4 fs-4 fw-bold">計算結果</p>
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Highly Recommended</div>
+        <div class="card-body">
+          <!-- Good Result foreach-->
+          <h5 class="card-title">Good A</h5>
+          <p class="card-text">raw data[10,10,10,10]</p>
+          <h5 class="card-title">Good B</h5>
+          <p class="card-text">raw data[10,10,10,10]</p>
+        </div>
+      </div>
+
+      <div class="card text-white bg-dark mb-3 mt-5">
+        <div class="card-header">Not Recommended</div>
+        <div class="card-body">
+          <!-- Bad Result foreach-->
+          <h5 class="card-title">Bad A</h5>
+          <p class="card-text">raw data [2,2,2,2]</p>
+          <h5 class="card-title">Bad A</h5>
+          <p class="card-text">raw data [2,2,2,2]</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card text-white bg-dark mb-3 mt-5">
+      <div class="card-header">TEST!!</div>
+      <div class="card-body">
+        <!-- TEST foreach-->
+        <h5 class="card-title">{{myweight}},{{mycriterion}}</h5>
+        {{csvData}}
+        <hr>
+
+        <!-- GOOD foreach-->
+        {% for idx in opt_idx %}
+        <li>{{idx}}</li>
+        {% endfor %}
+
+        <!-- BAD foreach-->
+        <hr>
+        {% for idx in bad_idx %}
+        <li>Name: {{Name_list}}</li>
+        {% endfor %}
+
+      </div>
+    </div>
+
+    <!-- Compute Btn -->
+
+    <div class="mb-3 d-grid gap-2 col-1 mx-auto">
+      <a href="{{index}}" class="btn btn-outline-dark">Back</a>
+    </div>
+
+  </div>
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+    integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+    integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>
