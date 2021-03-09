@@ -16,7 +16,7 @@
   <!-- As a link -->
   <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">TOPSIS Demo</a>
+      <a class="navbar-brand" href="{{request.META.HTTP_REFERER}}">TOPSIS Demo</a>
     </div>
   </nav>
 
@@ -27,10 +27,13 @@
         <div class="card-header">Highly Recommended</div>
         <div class="card-body">
           <!-- Good Result foreach-->
-          <h5 class="card-title">Good A</h5>
-          <p class="card-text">raw data[10,10,10,10]</p>
-          <h5 class="card-title">Good B</h5>
-          <p class="card-text">raw data[10,10,10,10]</p>
+          {% for i in dict_good.name %} <h5 class="card-title"> {{i}} </h5>
+            {% endfor %}
+            <hr>
+            <p class="card-text">raw data</p>
+            {% for j in dict_good.raw %}
+            <p class="card-text"> {{j}} </p>
+            {% endfor %}
         </div>
       </div>
 
@@ -38,41 +41,25 @@
         <div class="card-header">Not Recommended</div>
         <div class="card-body">
           <!-- Bad Result foreach-->
-          <h5 class="card-title">Bad A</h5>
-          <p class="card-text">raw data [2,2,2,2]</p>
-          <h5 class="card-title">Bad A</h5>
-          <p class="card-text">raw data [2,2,2,2]</p>
+          {% for i in dict_bad.name %}
+          <h5 class="card-title"> {{i}} </h5>
+          {% endfor %}
+          <hr>
+          <p class="card-text">raw data</p>
+          {% for j in dict_bad.raw %}
+          <p class="card-text"> {{j}} </p>
+          {% endfor %}
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="card text-white bg-dark mb-3 mt-5">
-      <div class="card-header">TEST!!</div>
-      <div class="card-body">
-        <!-- TEST foreach-->
-        <h5 class="card-title">{{myweight}},{{mycriterion}}</h5>
-        {{csvData}}
-        <hr>
 
-        <!-- GOOD foreach-->
-        {% for idx in opt_idx %}
-        <li>{{idx}}</li>
-        {% endfor %}
+  <!-- Compute Btn -->
 
-        <!-- BAD foreach-->
-        <hr>
-        {% for idx in bad_idx %}
-        <li>Name: {{Name_list}}</li>
-        {% endfor %}
-
-      </div>
-    </div>
-
-    <!-- Compute Btn -->
-
-    <div class="mb-3 d-grid gap-2 col-1 mx-auto">
-      <a href="{{index}}" class="btn btn-outline-dark">Back</a>
-    </div>
+  <div class="mb-3 d-grid gap-2 col-1 mx-auto">
+    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-outline-dark">Back</a>
+  </div>
 
   </div>
   <!-- Option 2: Separate Popper and Bootstrap JS -->
