@@ -138,10 +138,10 @@ def form_submit(request):
         get_length = len(C)
 
         # --------好的-----------
-        # 找好的
         optimum_choice = C.argsort()[-1]
         count_good = 0
         opt_idx = []
+        dict_good = {'name': [], 'raw': []}
         for i in range(get_length):
             if C[i] == C[optimum_choice]:
                 count_good += 1
@@ -151,10 +151,10 @@ def form_submit(request):
             opt_idx.append(optimum_choice)
 
         # --------不好的-----------
-        # 找不好的
         bad_choice = C.argsort()[0]
         count_bad = 0
         bad_idx = []
+        dict_bad = {'name': [], 'raw': []}
         for j in range(get_length):
             if C[j] == C[bad_choice]:
                 count_bad += 1
@@ -165,15 +165,13 @@ def form_submit(request):
 
         # print('--------好的-----------')
         for idx in opt_idx:
-            print('Name: {}(a[{}]) is : {}'.format(
-                Name_list[idx], idx, a[:, idx]))
-            result1 = 'Best choice: {}, {}'.format(Name_list[idx], a[:, idx])
+            dict_good['name'].append(Name_list[idx])
+            dict_good['raw'].append(a[:, idx])
 
         # print('--------不好的-----------')
         for idx in bad_idx:
-            print('Name: {}(a[{}]) is : {}'.format(
-                Name_list[idx], idx, a[:, idx]))
-            result2 = 'Poor choice: {}, {}'.format(Name_list[idx], a[:, idx])
+            dict_bad['name'].append(Name_list[idx])
+            dict_bad['raw'].append(a[:, idx])
 
     context = {
         'csvData': data,
@@ -181,7 +179,11 @@ def form_submit(request):
         'mycriterion': mycriterion,
         'opt_idx': opt_idx,
         'bad_idx': bad_idx,
-        'Name_list': Name_list,
-        'a': a,
+        'dict_bad': dict_bad,
+        'dict_good': dict_good,
     }
     return render(request, 'result.html', context)
+
+
+def test(request):
+    return render(request, 'test.html')
