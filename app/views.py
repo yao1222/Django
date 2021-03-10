@@ -3,6 +3,7 @@ from django.http.response import HttpResponse
 
 import csv
 import pandas as pd
+import numpy as np
 
 # Create your views here.
 
@@ -10,37 +11,65 @@ import pandas as pd
 def index(request):
     # csv = request.FILES['data_source']
     # df = pd.read_csv(csv, encoding='big5')
-    parameters_1 = [request.POST.get('id_1'), request.POST.get(
-        'id_2'), request.POST.get('id_3')]
-    parameters_2 = [request.POST.get('id_4'), request.POST.get(
-        'id_5'), request.POST.get('id_6')]
-    parameters_3 = [request.POST.get('id_7'), request.POST.get(
-        'id_8'), request.POST.get('id_9')]
+    parameters_1 = [request.POST.get('weight_1'), request.POST.get(
+        'weight_2'), request.POST.get('weight_3')]
+    parameters_2 = [request.POST.get('weight_4'), request.POST.get(
+        'criterion_1'), request.POST.get('criterion_2')]
+    parameters_3 = [request.POST.get('criterion_3'), request.POST.get(
+        'criterion_4'), request.POST.get('id_9')]
     context = {}
 
     return render(request, 'index.html', context)
 
-# def check_col(request):
-#     request['data_source'] = csv
-#     pd.DataFrame.from_csv(csv)
-#     return JsonResponse
 
-
+# 最後提交計算
 def form_submit(request):
     if request.FILES:
-        import pandas as pd
-        import numpy as np
         csv = request.FILES['data_source']
-        data = pd.read_csv(csv, encoding='utf-8')
+        data = pd.read_csv(csv, encoding='UTF-8')
+        col_len = len(data.columns)
 
-        weight = [request.POST.get('id_1'), request.POST.get(
-            'id_2'), request.POST.get('id_3'), request.POST.get('id_4')]
+        # 取出weight
+        weight = [request.POST.get('weight_1'), request.POST.get(
+            'weight_2'), request.POST.get('weight_3'), request.POST.get('weight_4')]
+        weight_copy = weight.copy()
+        for i in weight_copy:
+            if i == '':
+                weight.remove(i)
+            else:
+                pass
+        # 判斷weight欄位數量相符
+        if len(weight) == (col_len-1):
+            pass
+        else:
+            weight_error = 'Step3中，您輸入權重的數量與上傳檔案的欄位不相符!'
+            context = {
+                'weight_error': weight_error
+            }
+            return render(request, 'error.html', context)
 
         myweight = np.array(weight, dtype=np.float32)
 
+        # 取出criterion
         criterion = [request.POST.get(
-            'id_5'), request.POST.get('id_6'), request.POST.get('id_7'), request.POST.get('id_8')]
+            'criterion_1'), request.POST.get('criterion_2'), request.POST.get('criterion_3'), request.POST.get('criterion_4')]
+        criterion_copy = criterion.copy()
+        for i in criterion_copy:
+            if i == 'NA':
+                criterion.remove(i)
+            else:
+                pass
+        # 判斷criterion欄位數量相符
+        if len(criterion) == (col_len-1):
+            pass
+        else:
+            criterion_error = 'Step4中，您輸入criterion數量與上傳檔案的欄位不相符，請重新輸入!'
+            context = {
+                'criterion_error': criterion_error
+            }
+            return render(request, 'error.html', context)
 
+        myweight = np.array(weight, dtype=np.float32)
         mycriterion = np.array(criterion, dtype=np.float32)
 
         # Create an empty list
@@ -48,6 +77,7 @@ def form_submit(request):
         Name_list = []
         my_list = []
         count_col = data.shape[1]  # 總共幾行(包括第一行的名稱)
+        col_name = list(data.columns[1:])  # column名稱(不包含第一欄名字)
 
         # Iterate over each row
         for index, rows in data.iterrows():
@@ -181,6 +211,7 @@ def form_submit(request):
         'bad_idx': bad_idx,
         'dict_bad': dict_bad,
         'dict_good': dict_good,
+        'col_name': col_name
     }
     return render(request, 'result.html', context)
 
