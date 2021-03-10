@@ -1,3 +1,8 @@
+* {
+    font-family: "Helvetica", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+    ;
+}
+
 .button4 {
     display: inline-block;
     padding: 0.3em 1.2em;
